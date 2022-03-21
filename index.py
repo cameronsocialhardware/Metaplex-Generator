@@ -53,8 +53,6 @@ def generate_unique_images(amount, config):
       if key != "tokenId":
         attributes.append({"trait_type": key, "value": token[key]})
 
-    
-
 #Edit Token Metadata Here
     token_metadata = {
         "name":  config["name"] + str(token["tokenId"]).zfill(pad_amount),
@@ -65,7 +63,7 @@ def generate_unique_images(amount, config):
         "attributes": attributes,
          "properties":{
             "creators" : [{"address" : "HAhri3YyDyg5ZmzYmr7niMAohL5CbnbspwbvfcFHAVZA", "share": 100}],
-            "files" : [{'"uri":"' + str(token["tokenId"]) + '.png, "type": "image/png"'}],
+            "files" : [{'uri': '{}.png'.format(i + 1),"type" : "image/png"}],
         },
          "collection": config["collection"],
         }
@@ -76,6 +74,8 @@ def generate_unique_images(amount, config):
 
   with open('./metadata/all-objects.json', 'w') as outfile:
     json.dump(all_images, outfile, indent=4)
+
+# Image Generation
 
   for item in all_images:
     layers = []
@@ -104,6 +104,7 @@ def generate_unique_images(amount, config):
       rgb_im.save("./images/" + file_name)
 
   # v1.0.2 addition
+  token_metadata['properties']['files'][0]['uri'] = str(token["tokenId"]) + '.png'
   print("\nUnique NFT's generated. If you are uploading images to IPFS, please paste the CID below.\nOtherwise, hit ENTER or CTRL+C to quit.")
   cid = input("IPFS Image CID (): ")
   if len(cid) > 0:
@@ -115,6 +116,7 @@ def generate_unique_images(amount, config):
       with open('./metadata/' + str(item["tokenId"]) + '.json', 'r') as infile:
         original_json = json.loads(infile.read())
         original_json["image"] = original_json["image"].replace(config["baseURI"]+"/", cid+"/")
+       
         with open('./metadata/' + str(item["tokenId"]) + '.json', 'w') as outfile:
           json.dump(original_json, outfile, indent=4)
 
@@ -197,6 +199,5 @@ generate_unique_images(30, {
   "collection": {"name": "numbers", "family": "numbers"}
 }
 )
-
 #Additional layer objects can be added following the above formats. They will automatically be composed along with the rest of the layers as long as they are the same size as each other.
 #Objects are layered starting from 0 and increasing, meaning the front layer will be the last object. (Branding)
