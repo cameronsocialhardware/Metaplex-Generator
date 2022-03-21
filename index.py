@@ -63,7 +63,7 @@ def generate_unique_images(amount, config):
         "attributes": attributes,
          "properties":{
             "creators" : [{"address" : "HAhri3YyDyg5ZmzYmr7niMAohL5CbnbspwbvfcFHAVZA", "share": 100}],
-            "files" : [{'uri': '{}.png'.format(i + 1),"type" : "image/png"}],
+            "files" : [{'uri': '{}.png'.format(i + 1), "type" : "image/png"}],
         },
          "collection": config["collection"],
         }
