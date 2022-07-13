@@ -1,1 +1,1 @@
-# Metaplex-NFT-Generator
+# Metaplex-Generator
